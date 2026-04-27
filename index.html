@@ -16,7 +16,6 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -28,28 +27,55 @@
     overflow-x: hidden;
   }
 
-  /* ── HERO ── */
+  /* ── ANIMASJONER ── */
+  @keyframes slideInCenter {
+    0%   { opacity: 0; transform: translateX(-80px); }
+    65%  { opacity: 1; transform: translateX(6px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HERO — DESKTOP ── */
   .hero {
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: 100svh;
     background: var(--dark);
-    position: relative;
   }
 
   .hero-image {
     position: relative;
     overflow: hidden;
+    min-height: 100svh;
   }
 
   .hero-image img {
     width: 100%;
     height: 100%;
+    min-height: 100svh;
     object-fit: cover;
     object-position: center top;
     display: block;
     filter: saturate(0.85);
   }
+
+  .hero-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,18,8,0.45) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Mobil overlay-tekst — skjult på desktop */
+  .hero-overlay-text { display: none; }
 
   .hero-content {
     display: flex;
@@ -96,7 +122,6 @@
     transition: opacity 0.2s;
     cursor: pointer;
   }
-
   .hero-cta:hover { opacity: 0.7; }
 
   /* ── OM LESNING ── */
@@ -107,9 +132,7 @@
     gap: 0;
   }
 
-  .om-text {
-    padding: 4rem 3rem 4rem 3.5rem;
-  }
+  .om-text { padding: 4rem 3rem 4rem 3.5rem; }
 
   .section-heading {
     font-family: 'Cormorant Garamond', serif;
@@ -129,22 +152,18 @@
     max-width: 38ch;
   }
 
-  .om-text .meta {
-    margin-top: 1.5rem;
-    font-size: 0.82rem;
-  }
-
-  .om-text .meta strong {
-    font-weight: 400;
-  }
+  .om-text .meta { margin-top: 1.5rem; font-size: 0.82rem; }
+  .om-text .meta strong { font-weight: 400; }
 
   .om-image {
     overflow: hidden;
+    min-height: 100svh;
   }
 
   .om-image img {
     width: 100%;
     height: 100%;
+    min-height: 100svh;
     object-fit: cover;
     object-position: center;
     display: block;
@@ -204,7 +223,6 @@
     font-size: 0.82rem;
     font-weight: 300;
     letter-spacing: 0.15em;
-    text-transform: none;
     color: var(--yellow);
     text-decoration: underline;
     text-underline-offset: 5px;
@@ -213,19 +231,22 @@
     cursor: pointer;
     transition: opacity 0.2s;
   }
-
   .book-link:hover { opacity: 0.7; }
 
-  .email-line {
-    font-size: 0.82rem;
-    color: var(--text-light);
-    opacity: 0.75;
-  }
+  .email-line { font-size: 0.82rem; color: var(--text-light); opacity: 0.75; }
+  .email-line a { color: inherit; text-decoration: none; }
 
-  .email-line a {
-    color: inherit;
-    text-decoration: none;
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
   }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.22s; }
+  .reveal-delay-3 { transition-delay: 0.34s; }
+  .reveal-delay-4 { transition-delay: 0.46s; }
 
   /* ── MODAL ── */
   .modal-overlay {
@@ -239,7 +260,6 @@
     align-items: center;
     padding: 1.5rem;
   }
-
   .modal-overlay.open { display: flex; }
 
   .modal {
@@ -253,151 +273,179 @@
     animation: modalIn 0.3s ease;
   }
 
-  @keyframes modalIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
   .modal-close {
     position: absolute;
-    top: 1rem;
-    right: 1.25rem;
-    background: none;
-    border: none;
-    color: var(--yellow);
-    font-size: 1.4rem;
-    cursor: pointer;
-    opacity: 0.7;
+    top: 1rem; right: 1.25rem;
+    background: none; border: none;
+    color: var(--yellow); font-size: 1.4rem;
+    cursor: pointer; opacity: 0.7;
     transition: opacity 0.2s;
     font-family: 'Jost', sans-serif;
-    font-weight: 200;
-    line-height: 1;
+    font-weight: 200; line-height: 1;
   }
-
   .modal-close:hover { opacity: 1; }
 
   .modal h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--yellow);
-    margin-bottom: 0.5rem;
+    font-size: 2rem; font-weight: 300;
+    color: var(--yellow); margin-bottom: 0.5rem;
   }
-
-  .modal p.sub {
-    font-size: 0.82rem;
-    opacity: 0.65;
-    margin-bottom: 2rem;
-  }
+  .modal p.sub { font-size: 0.82rem; opacity: 0.65; margin-bottom: 2rem; }
 
   .modal label {
     display: block;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
+    font-size: 0.75rem; letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--yellow);
-    opacity: 0.75;
-    margin-bottom: 0.4rem;
+    color: var(--yellow); opacity: 0.75; margin-bottom: 0.4rem;
   }
 
-  .modal input,
-  .modal textarea,
-  .modal select {
+  .modal input, .modal textarea, .modal select {
     width: 100%;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(212,232,74,0.2);
     border-radius: 1px;
     color: var(--text-light);
     font-family: 'Jost', sans-serif;
-    font-weight: 300;
-    font-size: 0.88rem;
+    font-weight: 300; font-size: 0.88rem;
     padding: 0.75rem 0.9rem;
     margin-bottom: 1.25rem;
     outline: none;
     transition: border-color 0.2s;
     -webkit-appearance: none;
   }
-
-  .modal input:focus,
-  .modal textarea:focus,
-  .modal select:focus {
+  .modal input:focus, .modal textarea:focus, .modal select:focus {
     border-color: rgba(212,232,74,0.55);
   }
-
   .modal textarea { resize: vertical; min-height: 90px; }
-
   .modal select option { background: var(--olive); color: var(--text-light); }
 
   .modal-submit {
     width: 100%;
-    background: var(--yellow);
-    color: var(--dark);
-    border: none;
-    border-radius: 1px;
-    padding: 0.9rem;
+    background: var(--yellow); color: var(--dark);
+    border: none; border-radius: 1px; padding: 0.9rem;
     font-family: 'Jost', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 400;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    font-size: 0.8rem; font-weight: 400;
+    letter-spacing: 0.18em; text-transform: uppercase;
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
     margin-top: 0.5rem;
   }
-
   .modal-submit:hover { background: var(--yellow-dim); }
   .modal-submit:active { transform: scale(0.99); }
 
-  .modal-success {
-    text-align: center;
-    padding: 1rem 0;
-  }
+  .modal-success { text-align: center; padding: 1rem 0; }
+  .modal-success .check { font-size: 2.5rem; margin-bottom: 1rem; }
+  .modal-success p { font-size: 0.9rem; opacity: 0.8; }
 
-  .modal-success .check {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .modal-success p {
-    font-size: 0.9rem;
-    opacity: 0.8;
-  }
-
-  /* ── MOBILE ── */
+  /* ── MOBIL ── */
   @media (max-width: 680px) {
+
+    /* Hero: ett fullskjermsbilde med tekst overlay */
     .hero {
       grid-template-columns: 1fr;
-      min-height: auto;
+      min-height: 100svh;
+      position: relative;
     }
 
     .hero-image {
-      height: 65vw;
-      max-height: 320px;
+      position: absolute;
+      inset: 0;
+      min-height: unset;
     }
 
-    .hero-content {
-      padding: 2rem 1.5rem 2.5rem;
-      min-height: 50vw;
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      min-height: unset;
+      object-fit: cover;
+      object-position: center top;
     }
 
-    .hero-title { font-size: 3rem; }
-    .hero-name { padding-top: 1.5rem; }
-
-    .om-section {
-      grid-template-columns: 1fr;
+    /* Sterkere gradient på mobil — mørk fra bunn */
+    .hero-image::after {
+      background: linear-gradient(
+        to top,
+        rgba(8,14,5,0.96) 0%,
+        rgba(8,14,5,0.65) 35%,
+        rgba(8,14,5,0.2)  60%,
+        transparent       85%
+      );
     }
 
-    .om-text { padding: 3rem 1.5rem; }
+    /* Desktop-tekst skjules */
+    .hero-content { display: none; }
+
+    /* Mobil overlay-tekst */
+    .hero-overlay-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      position: absolute;
+      inset: 0;
+      padding: 0 2rem 4rem;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .hero-overlay-text h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 13vw, 5rem);
+      font-weight: 300;
+      color: var(--yellow);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      animation: slideInCenter 1s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s both;
+    }
+
+    .hero-overlay-text .hero-name-mobile {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      line-height: 1.9;
+      animation: fadeUp 0.8s ease 0.85s both;
+    }
+
+    .hero-overlay-text .hero-cta-mobile {
+      display: inline-block;
+      margin-top: 1.8rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      text-decoration: underline;
+      text-underline-offset: 5px;
+      text-decoration-thickness: 1px;
+      cursor: pointer;
+      animation: fadeUp 0.8s ease 1.05s both;
+    }
+
+    /* Om lesning */
+    .om-section { grid-template-columns: 1fr; }
+    .om-text { padding: 3rem 1.8rem 2rem; }
     .om-text p { max-width: 100%; }
 
-    .om-image { height: 60vw; }
+    .om-image {
+      height: 100svh;
+      min-height: 500px;
+    }
 
-    .bio-section { padding: 4rem 1.5rem; }
-    .bio-section p { font-size: 0.9rem; }
+    .bio-section { padding: 4rem 1.8rem; text-align: left; }
+    .bio-section p { font-size: 0.92rem; max-width: 100%; }
 
-    .pris-section { padding: 4rem 1.5rem 5rem; }
+    .pris-section { padding: 4rem 1.8rem 5rem; }
 
-    .modal { padding: 2.5rem 1.5rem; }
+    .modal {
+      padding: 2.5rem 1.5rem;
+      max-height: 90svh;
+      overflow-y: auto;
+    }
   }
 </style>
 </head>
@@ -405,10 +453,19 @@
 
 <!-- HERO -->
 <section class="hero">
+
   <div class="hero-image">
-    <!-- Bilde av Mads (grønn vest) -->
-    <img src="mads1.jpg" alt="Mads Sjøgård Pettersen">
+    <img src="https://mads-sjogard-pettersen.github.io/mads-lesning/mads1.jpg" alt="Mads Sjøgård Pettersen">
   </div>
+
+  <!-- Tekst overlay: kun mobil -->
+  <div class="hero-overlay-text">
+    <h1>Book lesning</h1>
+    <div class="hero-name-mobile">Med<br>Mads Sjøgård<br>Pettersen</div>
+    <span class="hero-cta-mobile" onclick="openModal()">Ta kontakt</span>
+  </div>
+
+  <!-- Tekst kolonne: kun desktop -->
   <div class="hero-content">
     <h1 class="hero-title">Book<br>lesning</h1>
     <div class="hero-name">
@@ -416,43 +473,45 @@
     </div>
     <a class="hero-cta" onclick="openModal()">Ta kontakt</a>
   </div>
+
 </section>
 
 <!-- OM LESNING -->
 <section class="om-section">
   <div class="om-text">
-    <h2 class="section-heading">Om<br>lesning</h2>
-    <p>Under en lesning kobler jeg meg på din energi og leser det som ligger i feltet ditt for å veilede deg gjennom de spørsmålene eller temaene som er viktig for deg akkurat nå.</p>
-    <p>Sammen skaper vi et trygt rom hvor vi utforsker ulike aspekter av livet ditt; enten det gjelder kjærlighet, karriere, personlig utvikling eller spirituell vekst.</p>
-    <p>En lesning handler ikke om å spå fremtiden, men om å gi deg innsikt, klarhet og nye perspektiver.</p>
-    <div class="meta">
+    <h2 class="section-heading reveal">Om<br>lesning</h2>
+    <p class="reveal reveal-delay-1">Under en lesning kobler jeg meg på din energi og leser det som ligger i feltet ditt for å veilede deg gjennom de spørsmålene eller temaene som er viktig for deg akkurat nå.</p>
+    <p class="reveal reveal-delay-2">Sammen skaper vi et trygt rom hvor vi utforsker ulike aspekter av livet ditt; enten det gjelder kjærlighet, karriere, personlig utvikling eller spirituell vekst.</p>
+    <p class="reveal reveal-delay-3">En lesning handler ikke om å spå fremtiden, men om å gi deg innsikt, klarhet og nye perspektiver.</p>
+    <div class="meta reveal reveal-delay-4">
       <p><strong>Sted:</strong> Nydalen i Oslo</p>
       <p><strong>Varighet:</strong> Et sted mellom 2 og 4 timer</p>
     </div>
   </div>
-  <div class="om-image">
-    <!-- Bilde av Mads (mørk hette) -->
-    <img src="mads2.jpg" alt="Mads">
+  <div class="om-image reveal">
+    <img src="https://mads-sjogard-pettersen.github.io/mads-lesning/mads2.jpg" alt="Mads">
   </div>
 </section>
 
 <!-- BIO -->
 <section class="bio-section">
-  <p>Mads er en norsk skuespiller og regissør med erfaring fra film, tv og teater. Ved siden av karrieren sin har han studert ved Agape Instituttet i Oslo under Marit Reitan siden 2020. Der har han opparbeidet seg bred kunnskap innenfor lesning og energiarbeid.<br><br>
+  <p class="reveal">Mads er en norsk skuespiller og regissør med erfaring fra film, tv og teater. Ved siden av karrieren sin har han studert ved Agape Instituttet i Oslo under Marit Reitan siden 2020. Der har han opparbeidet seg bred kunnskap innenfor lesning og energiarbeid.<br><br>
   Med denne kombinasjonen av kunstnerisk og spirituell praksis tilbyr Mads nå lesninger for de som søker en dypere forståelse og klarhet i livet.</p>
 </section>
 
 <!-- PRIS -->
 <section class="pris-section">
-  <h2 class="pris-title">Pris er basert på<br>din årsinntekt:</h2>
-  <ul class="pris-list">
+  <h2 class="pris-title reveal">Pris er basert på<br>din årsinntekt:</h2>
+  <ul class="pris-list reveal reveal-delay-1">
     <li>Under 650.000 kr = 1999 kr</li>
     <li>Over 650.000 kr = 2222 kr</li>
     <li>Over 1.000.000 kr = 2555 kr</li>
   </ul>
-  <p class="pris-nb">NB: Student/ufør = 1777 kr</p>
-  <a class="book-link" onclick="openModal()">Trykk her for å booke time</a><br>
-  <span class="email-line">Eller send mail til <a href="mailto:madssjogard@gmail.com">madssjogard@gmail.com</a></span>
+  <p class="pris-nb reveal reveal-delay-2">NB: Student/ufør = 1777 kr</p>
+  <div class="reveal reveal-delay-3">
+    <a class="book-link" onclick="openModal()">Trykk her for å booke time</a><br>
+    <span class="email-line">Eller send mail til <a href="mailto:madssjogard@gmail.com">madssjogard@gmail.com</a></span>
+  </div>
 </section>
 
 <!-- MODAL -->
@@ -500,34 +559,37 @@
     document.getElementById('modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
-
   function closeModal() {
     document.getElementById('modalOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
-
   function handleOverlayClick(e) {
     if (e.target === document.getElementById('modalOverlay')) closeModal();
   }
-
   function sendForm() {
     const navn = document.getElementById('navn').value.trim();
     const epost = document.getElementById('epost').value.trim();
-    if (!navn || !epost) {
-      alert('Vennligst fyll ut navn og e-post.');
-      return;
-    }
-
-    // Bygg mailto-lenke som fallback (fungerer overalt)
+    if (!navn || !epost) { alert('Vennligst fyll ut navn og e-post.'); return; }
     const inntekt = document.getElementById('inntekt').value;
     const melding = document.getElementById('melding').value;
-    const body = `Navn: ${navn}%0AE-post: ${epost}%0AInntektsnivå: ${inntekt}%0AMelding: ${melding}`;
-    window.location.href = `mailto:madssjogard@gmail.com?subject=Bookingforespørsel – lesning&body=${body}`;
-
+    const body = `Navn: ${navn}%0AE-post: ${epost}%0AInntektsniv%C3%A5: ${inntekt}%0AMelding: ${melding}`;
+    window.location.href = `mailto:madssjogard@gmail.com?subject=Bookingforesp%C3%B8rsel%20%E2%80%93%20lesning&body=${body}`;
     document.getElementById('modalForm').style.display = 'none';
     document.getElementById('modalSuccess').style.display = 'block';
     setTimeout(closeModal, 3000);
   }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
 </body>
