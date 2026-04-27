@@ -367,17 +367,22 @@
   @media (max-width: 680px) {
     .hero {
       grid-template-columns: 1fr;
-      min-height: auto;
+      min-height: 100svh;
+      grid-template-rows: 60svh auto;
     }
 
     .hero-image {
-      height: 65vw;
-      max-height: 320px;
+      height: 60svh;
+      max-height: none;
+    }
+
+    .hero-image img {
+      object-position: center 15%;
     }
 
     .hero-content {
       padding: 2rem 1.5rem 2.5rem;
-      min-height: 50vw;
+      min-height: auto;
     }
 
     .hero-title { font-size: 3rem; }
