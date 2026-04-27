@@ -40,7 +40,6 @@
   .hero-image {
     position: relative;
     overflow: hidden;
-    min-height: 100svh;
   }
 
   .hero-image img {
@@ -141,7 +140,6 @@
 
   .om-image {
     overflow: hidden;
-    min-height: 100svh;
   }
 
   .om-image img {
@@ -369,22 +367,17 @@
   @media (max-width: 680px) {
     .hero {
       grid-template-columns: 1fr;
-      min-height: 100svh;
-      grid-template-rows: 60svh auto;
+      min-height: auto;
     }
 
     .hero-image {
-      height: 60svh;
-      max-height: none;
-    }
-
-    .hero-image img {
-      object-position: center 15%;
+      height: 65vw;
+      max-height: 320px;
     }
 
     .hero-content {
       padding: 2rem 1.5rem 2.5rem;
-      min-height: auto;
+      min-height: 50vw;
     }
 
     .hero-title { font-size: 3rem; }
@@ -397,7 +390,7 @@
     .om-text { padding: 3rem 1.5rem; }
     .om-text p { max-width: 100%; }
 
-    .om-image { height: 100svh; }
+    .om-image { height: 60vw; }
 
     .bio-section { padding: 4rem 1.5rem; }
     .bio-section p { font-size: 0.9rem; }
